@@ -24,4 +24,7 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: yarn test
+      - run:
+          name: Build
+          command: yarn clean && yarn build
 

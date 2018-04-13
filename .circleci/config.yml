@@ -33,6 +33,9 @@ jobs:
             curl -O https://bootstrap.pypa.io/get-pip.py
             sudo python3.4 get-pip.py
             sudo pip install awscli --upgrade
+      - run:
+          name: Install ecs-deploy
+          command: sudo npm install -g ecs-deploy
 
       - run:
           name: Running unit tests
@@ -59,3 +62,9 @@ jobs:
             mkdir ~/.aws && echo -e "[default]\naws_access_key_id=$AWS_ACCESS_KEY_ID\naws_secret_access_key=$AWS_SECRET_ACCESS_KEY\n" > ~/.aws/credentials
             DOCKER_LOGIN=`aws ecr get-login --no-include-email --region us-east-1` && $DOCKER_LOGIN
             docker push $AWS_ECR_URI:$CIRCLE_SHA1
+
+      - run:
+          name: Deploy Image
+          command: REGION=us-east-1 CLUSTER=js-workshop SERVICE=js-workshop-nazmi-api CONTAINER=app IMAGE=$AWS_ECR_URI/js-workshop-nazmi-api IMAGE_TAG=$CIRCLE_SHA1 ecs-deploy
+
+

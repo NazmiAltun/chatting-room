@@ -55,10 +55,10 @@ jobs:
 
       - run:
           name: Deploy ECR
-          command:  |
-          mkdir ~/.aws && echo -e "[default]\naws_access_key_id=$AWS_ACCESS_KEY_ID\naws_secret_access_key=$AWS_SECRET_ACCESS_KEY\n" > ~/.aws/credentials
-          DOCKER_LOGIN=`aws ecr get-login --no-include-email --region us-east-1` && $DOCKER_LOGIN
-          docker push $AWS_ECR_URI:$CIRCLE_SHA1
+            command: |
+            mkdir ~/.aws && echo -e "[default]\naws_access_key_id=$AWS_ACCESS_KEY_ID\naws_secret_access_key=$AWS_SECRET_ACCESS_KEY\n" > ~/.aws/credentials
+            DOCKER_LOGIN=`aws ecr get-login --no-include-email --region us-east-1` && $DOCKER_LOGIN
+            docker push $AWS_ECR_URI:$CIRCLE_SHA1
 
       # - run:
       #     name: Deploy Image
